@@ -109,11 +109,4 @@ def test_dqn(state_dict):
             print("Agent Finished. Total score: {}".format(score))
             break
         
-    
-def draw_chart(scores):
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    plt.plot(np.arange(len(scores)), scores)
-    plt.ylabel('Score')
-    plt.xlabel('Episode #')
-    plt.show()
+        
