@@ -1,11 +1,10 @@
 import numpy as np
 from collections import deque
 from matplotlib import pyplot as plt
-from unityagents import UnityEnvironment
 
 from agent import Agent, TrainedAgent
 
-def train_dqn(num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min):
+def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min):
     """
     Training function.
     """
@@ -13,9 +12,6 @@ def train_dqn(num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, e
     scores = []
     scores_window = deque(maxlen=100)
     best_score = -100
-    
-    # Create the environment
-    env = UnityEnvironment(file_name="Banana.app", no_graphics=True)
 
     # Get the default brain
     brain_name = env.brain_names[0]
@@ -61,8 +57,8 @@ def train_dqn(num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, e
             print("Episode: {} of {}. Score: {:.2f}. Epsilon: {:.2f}".format(episode, num_of_episodes, np.mean(scores_window), agent.epsilon))
             if np.mean(scores_window) > best_score:
                 best_score = np.mean(scores_window)
-                file_name = agent.save_agent(episode)
-                print("Saved a new agent: {}".format(file_name))
+                # file_name = agent.save_agent(episode)
+                # print("Saved a new agent: {}".format(file_name))
                 
         # Update epsilon
         agent.update_epsilon()
@@ -73,7 +69,7 @@ def train_dqn(num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, e
     
     # Get the latest model
     best_model = agent.get_best_model()
-    
+        
     return np.mean(scores_window), scores, best_model
 
 def test_dqn(state_dict):

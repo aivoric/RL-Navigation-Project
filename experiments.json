@@ -1,0 +1,67 @@
+{
+    "experiments": [
+        {
+            "skip": false,
+            "experiment_id": 1,
+            "experiment_name": "Benchmark",
+            "experiment_description": "First model run to set a benchmark.",
+            "experiment_config": {
+                "num_of_episodes": 10,
+                "max_steps": 1000,
+                "learning_rate": 0.0005,
+                "gamma": 0.99,
+                "epsilon_decay": 0.995,
+                "epsilon_min": 0.01,
+                "model_starting_weights": false,
+                "model_architecture_chane": false,
+                "model_dropout": false,
+                "model_normalisation": false,
+                "double_dqn": false,
+                "prioritised_replay": false,
+                "dueling_dqn": false
+            }
+        },
+        {
+            "skip": true,
+            "experiment_id": 2,
+            "experiment_name": "Second Experiment",
+            "experiment_description": "First model run to set a benchmark.",
+            "experiment_config": {
+                "num_of_episodes": 10,
+                "max_steps": 1000,
+                "learning_rate": 0.0005,
+                "gamma": 0.99,
+                "epsilon_decay": 0.995,
+                "epsilon_min": 0.01,
+                "model_starting_weights": false,
+                "model_architecture_chane": false,
+                "model_dropout": false,
+                "model_normalisation": false,
+                "double_dqn": false,
+                "prioritised_replay": false,
+                "dueling_dqn": false
+            }
+        },
+        {
+            "skip": false,
+            "experiment_id": 3,
+            "experiment_name": "Third Experiment",
+            "experiment_description": "First model run to set a benchmark.",
+            "experiment_config": {
+                "num_of_episodes": 10,
+                "max_steps": 1000,
+                "learning_rate": 0.0005,
+                "gamma": 0.99,
+                "epsilon_decay": 0.995,
+                "epsilon_min": 0.01,
+                "model_starting_weights": false,
+                "model_architecture_chane": false,
+                "model_dropout": false,
+                "model_normalisation": false,
+                "double_dqn": false,
+                "prioritised_replay": false,
+                "dueling_dqn": false
+            }
+        }
+    ]
+}
