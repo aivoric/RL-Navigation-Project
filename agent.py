@@ -142,7 +142,7 @@ class Agent():
         torch.save(self.qnetwork_main.state_dict(), file_name)
         return file_name
     
-    def get_best_model(self):
+    def get_last_model(self):
         return self.qnetwork_main.state_dict()
 
 
