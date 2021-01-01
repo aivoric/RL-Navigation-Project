@@ -13,6 +13,7 @@ class Agent():
     The agent is responsible for interacting and learning from the environment.
     """
     def __init__(self, state_size, action_size, learning_rate, gamma, epsilon_decay, epsilon_min, 
+                 model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
                  tau=1e-3, buffer_size=int(1e5), batch_size=64, update_every=4):
         
         # Set the device
@@ -23,8 +24,10 @@ class Agent():
         self.action_size = action_size
         
         # Initialise the Q Networks:
-        self.qnetwork_main = QNetwork(state_size, action_size).to(self.device)
-        self.qnetwork_target = QNetwork(state_size, action_size).to(self.device)
+        self.qnetwork_main = QNetwork(state_size, action_size, model_fc1_units, model_fc2_units, 
+                                      model_fc3_units, model_starting_weights, model_dropout, model_batch_norm).to(self.device)
+        self.qnetwork_target = QNetwork(state_size, action_size, model_fc1_units, model_fc2_units, 
+                                      model_fc3_units, model_starting_weights, model_dropout, model_batch_norm).to(self.device)
 
         # Initialise the Optimizer:
         self.optimizer = optim.Adam(self.qnetwork_main.parameters(), lr = learning_rate)

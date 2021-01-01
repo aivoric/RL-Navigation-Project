@@ -19,12 +19,21 @@ for experiment in experiments_data:
         experiment_name = experiment["experiment_name"]
         experiment_config = experiment["experiment_config"]
         
+        # Main variables:
         num_of_episodes = experiment_config["num_of_episodes"]
         max_steps = experiment_config["max_steps"]
         learning_rate = experiment_config["learning_rate"]
         gamma = experiment_config["gamma"]
         epsilon_decay = experiment_config["epsilon_decay"]
         epsilon_min = experiment_config["epsilon_min"]
+        
+        # Model variables:
+        model_fc1_units = experiment_config["model_fc1_units"]
+        model_fc2_units = experiment_config["model_fc2_units"]
+        model_fc3_units = experiment_config["model_fc3_units"]
+        model_dropout = experiment_config["model_dropout"]
+        model_starting_weights = experiment_config["model_starting_weights"]
+        model_batch_norm = experiment_config["model_batch_norm"]
         
         # Inform user about the experiment:
         print("\n#############################\nSTARTING NEW EXPERIMENT: {} \n#############################\n".format(experiment_name))
@@ -35,10 +44,15 @@ for experiment in experiments_data:
         print("Gamma: {}".format(gamma))
         print("Epsilon Decay: {}".format(epsilon_decay))
         print("Epsilon Minimum Value: {}".format(epsilon_min))
+        print("Model Fully Connected Layer 1 Size: {}".format(model_fc1_units))
+        print("Model Fully Connected Layer 2 Size: {}".format(model_fc2_units))
+        print("Model Fully Connected Layer 3 Size: {} (0 = Layer not used)".format(model_fc3_units))
+        print("Model Uses a 30% Dropout Probability: {}".format(model_dropout))
         print("")
 
         # Train the model:
-        final_score, all_scores, model = train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min)
+        final_score, all_scores, model = train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min,
+                                                   model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm)
         print("\nFinal Score: {}".format(final_score))
 
         # Save the results and final model state dictionary:
