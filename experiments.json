@@ -47,7 +47,7 @@
         {
             "skip": false,
             "experiment_id": 1,
-            "experiment_name": "Epsion Decay 999",
+            "experiment_name": "Epsilon Decay 999",
             "experiment_description": "Reduce epsilon decay.",
             "experiment_config": {
                 "learning_rate": 0.0005,

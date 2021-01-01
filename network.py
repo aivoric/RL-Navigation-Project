@@ -28,6 +28,7 @@ class QNetwork(nn.Module):
             print("Initialised a model with a dropout probability of 30%.")
             self.dropout = nn.Dropout(0.30)
         
+        # Experiment with batch normalisation:
         if model_batch_norm:
             print("Initialised a model with batch normalisation.")
             self.bn1 = nn.BatchNorm1d(num_features=model_fc1_units)
