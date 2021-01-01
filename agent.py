@@ -14,7 +14,7 @@ class Agent():
     """
     def __init__(self, state_size, action_size, learning_rate, gamma, epsilon_decay, epsilon_min, 
                  model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
-                 tau=1e-3, buffer_size=int(1e5), batch_size=64, update_every=4):
+                 tau=0.001, buffer_size=int(1e5), batch_size=64, update_every=4):
         
         # Set the device
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

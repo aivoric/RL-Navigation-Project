@@ -15,17 +15,18 @@ with open('experiments.json') as f:
 # Iterate through all the experiments:
 for experiment in experiments_data:
     if experiment["skip"] == False:
-        # Get expriment variables:
+        # Get experiment variables:
         experiment_name = experiment["experiment_name"]
         experiment_config = experiment["experiment_config"]
+        num_of_episodes = 300 # experiment_config["num_of_episodes"]
+        max_steps = 1000 # experiment_config["max_steps"]
         
         # Main variables:
-        num_of_episodes = experiment_config["num_of_episodes"]
-        max_steps = experiment_config["max_steps"]
         learning_rate = experiment_config["learning_rate"]
         gamma = experiment_config["gamma"]
         epsilon_decay = experiment_config["epsilon_decay"]
         epsilon_min = experiment_config["epsilon_min"]
+        tau = experiment_config["tau"]
         
         # Model variables:
         model_fc1_units = experiment_config["model_fc1_units"]
@@ -43,7 +44,8 @@ for experiment in experiments_data:
         print("Learning Rate: {}".format(learning_rate))
         print("Gamma: {}".format(gamma))
         print("Epsilon Decay: {}".format(epsilon_decay))
-        print("Epsilon Minimum Value: {}".format(epsilon_min))
+        print("Epsilon Minimum: {}".format(epsilon_min))
+        print("TAU: {}".format(tau))
         print("Model Fully Connected Layer 1 Size: {}".format(model_fc1_units))
         print("Model Fully Connected Layer 2 Size: {}".format(model_fc2_units))
         print("Model Fully Connected Layer 3 Size: {} (0 = Layer not used)".format(model_fc3_units))
@@ -52,7 +54,8 @@ for experiment in experiments_data:
 
         # Train the model:
         final_score, all_scores, model = train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min,
-                                                   model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm)
+                                                   model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
+                                                   tau)
         print("\nFinal Score: {}".format(final_score))
 
         # Save the results and final model state dictionary:

@@ -37,11 +37,11 @@ class QNetwork(nn.Module):
             
         # Experiment using different model initialisation:
         if model_starting_weights:
-            print("Initialised a model with initial weghts based on Xavier normal distribution.")
-            nn.init.xavier_normal_(self.fc1.weight)
-            nn.init.xavier_normal_(self.fc2.weight)
+            print("Initialised a model with initial weghts based on Xavier uniform distribution.")
+            nn.init.xavier_uniform_(self.fc1.weight)
+            nn.init.xavier_uniform_(self.fc2.weight)
             if model_fc3_units > 0:
-                nn.init.xavier_normal_(self.fc3.weight)
+                nn.init.xavier_uniform_(self.fc3.weight)
             
     def forward(self, state):
         """

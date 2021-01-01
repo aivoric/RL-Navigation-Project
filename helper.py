@@ -5,7 +5,8 @@ from matplotlib import pyplot as plt
 from agent import Agent, TrainedAgent
 
 def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min,
-              model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm):
+              model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
+              tau):
     """
     Training function.
     """
@@ -28,7 +29,8 @@ def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_dec
     
     # Create the agent
     agent = Agent(state_size, action_size, learning_rate, gamma, epsilon_decay, epsilon_min,
-                  model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm)
+                  model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
+                  tau)
 
     for episode in range(1, num_of_episodes+1):
         state = env.reset(train_mode=True)[brain_name].vector_observations[0]
@@ -102,5 +104,4 @@ def test_dqn(state_dict):
         if done:
             print("Agent Finished. Total score: {}".format(score))
             break
-        
         
