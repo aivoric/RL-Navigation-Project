@@ -61,7 +61,7 @@ def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_dec
             print("Episode: {} of {}. Score: {:.2f}. Epsilon: {:.2f}".format(episode, num_of_episodes, np.mean(scores_window), agent.epsilon))
             if np.mean(scores_window) > best_score:
                 best_score = np.mean(scores_window)
-                best_model = agent.get_last_model()
+                best_model = agent.get_model_state_dict()
                 
         # Update epsilon
         agent.update_epsilon()

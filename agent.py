@@ -24,13 +24,17 @@ class Agent():
         self.action_size = action_size
         
         # Initialise the Q Networks:
-        self.qnetwork_main = QNetwork(state_size, action_size, model_fc1_units, model_fc2_units, 
+        self.model = QNetwork(state_size, action_size, model_fc1_units, model_fc2_units, 
                                       model_fc3_units, model_starting_weights, model_dropout, model_batch_norm).to(self.device)
-        self.qnetwork_target = QNetwork(state_size, action_size, model_fc1_units, model_fc2_units, 
+        self.target_model = QNetwork(state_size, action_size, model_fc1_units, model_fc2_units, 
                                       model_fc3_units, model_starting_weights, model_dropout, model_batch_norm).to(self.device)
+        
+        # Hard copy model parameters to target model parameters
+        for target_param, param in zip(self.model.parameters(), self.target_model.parameters()):
+            target_param.data.copy_(param)
 
         # Initialise the Optimizer:
-        self.optimizer = optim.Adam(self.qnetwork_main.parameters(), lr = learning_rate)
+        self.optimizer = optim.Adam(self.model.parameters(), lr = learning_rate)
         
         # Initialise the memory
         self.memory = MemoryBuffer(action_size, buffer_size, batch_size, self.device)
@@ -68,9 +72,10 @@ class Agent():
         self.time_step += 1
         
         if((self.time_step % self.update_every == 0) and (len(self.memory) > self.batch_size)):
-            self.learn()
+            loss = self.calculate_loss()
+            self.learn(loss)
     
-    def learn(self):
+    def calculate_loss(self):
         """
         Acquire a sample from the memory buffer.
         Calculate loss and backpropagate.
@@ -78,41 +83,29 @@ class Agent():
         # Get an experience sample:
         states, actions, rewards, next_states, dones = self.memory.sample()
         
-        # Get max predicted Q values (for next states) from target model
-        Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
-        # curr_Q1 = self.qnetwork_target.forward(states).gather
+        # Get Q value from current model:
+        curr_Q = self.model.forward(states).gather(1, actions)
         
-        # Compute Q targets for current states 
-        Q_targets = rewards + (self.gamma * Q_targets_next * (1 - dones))
-
-        # Get expected Q values from local model
-        Q_expected = self.qnetwork_main(states).gather(1, actions)
+        # Get Q value from target model (expected):
+        next_Q = self.target_model.forward(next_states)
+        max_next_Q = torch.max(next_Q, 1)[0].unsqueeze(1)
+        expected_Q = rewards + (self.gamma * max_next_Q * (1 - dones))
 
         # Compute loss
-        loss = F.mse_loss(Q_expected, Q_targets)
-        
-        # Minimize the loss
+        loss = F.mse_loss(curr_Q, expected_Q)
+        return loss
+    
+    
+    def learn(self, loss):
+        # Minimize the loss (backpropagation)
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-
-        # Soft update the target model
-        self.update_target_model(self.qnetwork_main, self.qnetwork_target) 
-    
-    def update_target_model(self, main_model, target_model):
-        """
-        Soft update model parameters.
         
-        θ_target = τ*θ_local + (1 - τ)*θ_target
-
-        Params
-        ======
-            main_model (PyTorch model): weights will be copied from
-            target_model (PyTorch model): weights will be copied to
-            tau (float): interpolation parameter 
-        """
-        for target_param, main_param in zip(target_model.parameters(), main_model.parameters()):
-            target_param.data.copy_(self.tau * main_param.data + (1.0 - self.tau) * target_param.data)
+        # Update the model
+        for target_param, model_param in zip(self.target_model.parameters(), self.model.parameters()):
+            target_param.data.copy_(self.tau * model_param.data + (1.0 - self.tau) * target_param.data)
+            
 
     def act(self, state):
         """
@@ -126,14 +119,14 @@ class Agent():
         state = torch.from_numpy(state).float().unsqueeze(0).to(self.device)
         
         # Set evaluation mode
-        self.qnetwork_main.eval()
+        self.model.eval()
         
         # Get the action values:
         with torch.no_grad():
-            action_values = self.qnetwork_main(state)
+            action_values = self.model.forward(state)
             
         # Set training mode
-        self.qnetwork_main.train()
+        self.model.train()
 
         # Epsilon-greedy action selection
         if random.random() > self.epsilon:
@@ -143,11 +136,11 @@ class Agent():
     
     def save_agent(self, episode):
         file_name = 'agents/agent-ep{}.pth'.format(episode)
-        torch.save(self.qnetwork_main.state_dict(), file_name)
+        torch.save(self.model.state_dict(), file_name)
         return file_name
     
-    def get_last_model(self):
-        return self.qnetwork_main.state_dict()
+    def get_model_state_dict(self):
+        return self.model.state_dict()
 
 
 class TrainedAgent():
