@@ -1,14 +1,20 @@
-from helper import test_dqn
+import os
 import pickle
 
-# Set the 
-file_with_results = 'results/1609345659.pickle'
+result_files = os.listdir("results_archive")
+print(result_files)
 
-# Retrieving pickled data
-with open(file_with_results, 'rb') as handle:
-    saved_results = pickle.load(handle)
-    print("\n\n###### SAVED RESULTS: {}\n\n".format(saved_results['model']))
-    print("Retrieved model which achieved this score: {}".format(saved_results['final_score']))
 
-# Test the model
-test_dqn(saved_results['model'])
+for file in result_files:
+    print("\n#################\nANALYSING RESULTS FOR: {}\n#################".format(file))
+    
+    file_location = os.path.join('results', file)
+        
+    with open(file_location, 'rb') as f:
+        saved_results = pickle.load(f)
+        
+    print("\nFINAL SCORE: {}\n".format(saved_results['final_score']))
+    
+    scores = saved_results['all_scores']
+    print(scores)
+    

@@ -4,6 +4,7 @@ import time
 from os import path
 import json
 from unityagents import UnityEnvironment
+import torch
     
 # Create the environment
 env = UnityEnvironment(file_name="Banana.app", no_graphics=True)
@@ -18,7 +19,7 @@ for experiment in experiments_data:
         # Get experiment variables:
         experiment_name = experiment["experiment_name"]
         experiment_config = experiment["experiment_config"]
-        num_of_episodes = 300 # experiment_config["num_of_episodes"]
+        num_of_episodes = 20 # experiment_config["num_of_episodes"]
         max_steps = 1000 # experiment_config["max_steps"]
         
         # Main variables:
@@ -53,24 +54,30 @@ for experiment in experiments_data:
         print("")
 
         # Train the model:
-        final_score, all_scores, model = train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min,
+        best_score, all_scores, model_state_dict = train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min,
                                                    model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
                                                    tau)
-        print("\nFinal Score: {}".format(final_score))
+        print("\nFinal Score: {}".format(best_score))
 
         # Save the results and final model state dictionary:
         timestamp = int(time.time())
+        
         results_dict = {
             'experiment_name': experiment_name,
             'timestamp': timestamp,
-            'final_score': final_score,
-            'all_scores': all_scores,
-            'model': model
+            'best_score': best_score,
+            'all_scores': all_scores
         }
-        file_name = path.join('results', '{}_{}.pickle'.format(timestamp, experiment_name))
-        with open(file_name, 'wb') as handle:
+        
+        results_file_name = path.join('results', '{}_{}_results'.format(timestamp, experiment_name))
+        model_file_name = path.join('models', '{}_{}_model'.format(timestamp, experiment_name))
+        
+        with open(results_file_name, 'wb') as handle:
             pickle.dump(results_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            print("\nResults saved to: {}.".format(file_name))
+            print("\nResults saved to: {}.".format(results_file_name))
+            
+        torch.save(model_state_dict, model_file_name)
+        print("\nModel saved to: {}.".format(model_file_name))
 
 # Close the unity environment
 env.close()

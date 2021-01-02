@@ -14,6 +14,7 @@ def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_dec
     scores = []
     scores_window = deque(maxlen=100)
     best_score = -100
+    model_state_dict = {}
 
     # Get the default brain
     brain_name = env.brain_names[0]
@@ -60,8 +61,8 @@ def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_dec
         if episode % 10 == 0:
             print("Episode: {} of {}. Score: {:.2f}. Epsilon: {:.2f}".format(episode, num_of_episodes, np.mean(scores_window), agent.epsilon))
             if np.mean(scores_window) > best_score:
-                best_score = np.mean(scores_window)
-                best_model = agent.get_model_state_dict()
+                best_score = np.mean(scores_window).tolist()
+                model_state_dict = agent.get_model_state_dict()
                 
         # Update epsilon
         agent.update_epsilon()
@@ -70,7 +71,7 @@ def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_dec
         scores_window.append(episode_score)   
         scores.append(episode_score)
         
-    return best_score, scores, best_model
+    return best_score, scores, model_state_dict
 
 def test_dqn(state_dict):
     # Create the environment

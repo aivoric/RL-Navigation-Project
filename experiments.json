@@ -2,7 +2,7 @@
     "experiments": [
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 0,
             "experiment_name": "Benchmark",
             "experiment_description": "First model run to set a benchmark.",
             "experiment_config": {
@@ -25,6 +25,28 @@
         {
             "skip": false,
             "experiment_id": 1,
+            "experiment_name": "Various Changes",
+            "experiment_description": "Model based on various learnings.",
+            "experiment_config": {
+                "learning_rate": 0.0001,
+                "gamma": 0.99,
+                "epsilon_decay": 0.997,
+                "epsilon_min": 0.01,
+                "tau": 0.01,
+                "model_fc1_units": 64,
+                "model_fc2_units": 128,
+                "model_fc3_units": 0,
+                "model_starting_weights": false,
+                "model_dropout": false,
+                "model_batch_norm": false,
+                "double_dqn": false,
+                "prioritised_replay": false,
+                "dueling_dqn": false
+            }
+        },
+        {
+            "skip": false,
+            "experiment_id": 2,
             "experiment_name": "Learning Rate 0001",
             "experiment_description": "Set a lower learning rate.",
             "experiment_config": {
@@ -46,7 +68,7 @@
         },
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 3,
             "experiment_name": "Epsilon Decay 999",
             "experiment_description": "Reduce epsilon decay.",
             "experiment_config": {
@@ -68,7 +90,7 @@
         },
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 4,
             "experiment_name": "Tau 01",
             "experiment_description": "Increse TAU.",
             "experiment_config": {
@@ -90,7 +112,7 @@
         },
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 5,
             "experiment_name": "Batch Normalisation",
             "experiment_description": "Add batch normalisation.",
             "experiment_config": {
@@ -112,7 +134,7 @@
         },
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 6,
             "experiment_name": "Simpler Model 64",
             "experiment_description": "Simplify second layer to 64 units.",
             "experiment_config": {
@@ -134,7 +156,7 @@
         },
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 7,
             "experiment_name": "Complex Model 3 Layer",
             "experiment_description": "Add a 3rd fully connected layer with 128 units.",
             "experiment_config": {
@@ -156,7 +178,7 @@
         },
         {
             "skip": false,
-            "experiment_id": 1,
+            "experiment_id": 8,
             "experiment_name": "Xavier Uniform",
             "experiment_description": "Set the starting weights using the xabier uniform distribution.",
             "experiment_config": {
