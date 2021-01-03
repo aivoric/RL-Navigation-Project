@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 This is a reinforcement learning project which teaches an agent to navigate on its own a room full of bananas and collect only yellow bananas while avoiding the blue.
 
@@ -87,7 +87,7 @@ Adjusting all the core hyperparameters, e.g. learning rate, gamma, tau, epsilon 
 
 ## Model Performance Summary
 
-**Summary**
+### Summary
 
 The best agent was trained for 2000 episodes using the hyper parameters listed below.
 
@@ -104,10 +104,10 @@ The agent model is stored here:
 And its results are stored here:
 /results/1609615254_Various Changes_results
 
-A graphic summarising the performance can be found here:
-TBC
+A graphic summarising the performance:
+!["Model Results"](https://github.com/aivoric/RL-Navigation-Project/model_results.png)
 
-**Hyperparameters used**
+### Hyperparameters used
 
 - learning_rate: 0.0001
 - gamma: 0.99
@@ -128,5 +128,6 @@ TBC
 
 As part of this project a testing architecture has been setup. This testing architecture should be expanded to include:
 1. Further testing of different hyperparameters
-2. Introducing prioritised memory replay (I've started research into this: https://knowledge.udacity.com/questions/433081)
-3. Introducing Dueling DQN
+2. Changes to the network architecture
+3. Introducing prioritised memory replay (I've started research into this: https://knowledge.udacity.com/questions/433081)
+4. Introducing Dueling DQN
