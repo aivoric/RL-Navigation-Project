@@ -85,7 +85,7 @@ To train a new agent you need to setup an experiment in experiments.json. Feel f
 
 Adjusting all the core hyperparameters, e.g. learning rate, gamma, tau, epsilon decay - is straight forward. However, training custom agents, e.g. with different network architecture, will require modifying other files.
 
-## Model Performance Summary
+## Performance Report
 
 ### Summary
 
@@ -106,6 +106,15 @@ And its results are stored here:
 
 A graphic summarising the performance:
 !["Model Results"](https://github.com/aivoric/RL-Navigation-Project/blob/master/model_results.png?raw=true)
+
+### Model Architecture
+
+The architecture was a simple Linear model which:
+- Consumed an input vector size 37 (37 state dimensions)
+- 2 inner layers: 64, and 128 neurons in size
+- 4 outputs (one for each action)
+
+Some attempts were made at testing dropouts, batch normalisation, and different weight initialisation. However, more exploration is required in that direction.
 
 ### Hyperparameters used
 
