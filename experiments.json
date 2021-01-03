@@ -50,7 +50,7 @@
             "experiment_name": "Learning Rate 0001",
             "experiment_description": "Set a lower learning rate.",
             "experiment_config": {
-                "learning_rate": 0.0005,
+                "learning_rate": 0.0001,
                 "gamma": 0.99,
                 "epsilon_decay": 0.995,
                 "epsilon_min": 0.01,

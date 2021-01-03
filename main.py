@@ -57,7 +57,7 @@ for experiment in experiments_data:
         best_score, all_scores, model_state_dict = train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_decay, epsilon_min,
                                                    model_fc1_units, model_fc2_units, model_fc3_units, model_starting_weights, model_dropout, model_batch_norm,
                                                    tau)
-        print("\nFinal Score: {}".format(best_score))
+        print("\Best Score: {}".format(best_score))
 
         # Save the results and final model state dictionary:
         timestamp = int(time.time())

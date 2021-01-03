@@ -1,6 +1,8 @@
 import numpy as np
+import os
 from collections import deque
 from matplotlib import pyplot as plt
+import time
 
 from agent import Agent, TrainedAgent
 
@@ -73,9 +75,7 @@ def train_dqn(env, num_of_episodes, max_steps, learning_rate, gamma, epsilon_dec
         
     return best_score, scores, model_state_dict
 
-def test_dqn(state_dict):
-    # Create the environment
-    env = UnityEnvironment(file_name="Banana.app")
+def run_trained_dqn_agent(env, trained_model_location):
 
     # Get the default brain
     brain_name = env.brain_names[0]
@@ -92,7 +92,7 @@ def test_dqn(state_dict):
     score = 0
     
     # Create the agent
-    trained_agent = TrainedAgent(state_size, action_size, state_dict)
+    trained_agent = TrainedAgent(state_size, action_size, trained_model_location)
     
     while True:
         action = trained_agent.act(state)
@@ -102,6 +102,7 @@ def test_dqn(state_dict):
         done = env_info.local_done[0]
         score += reward
         state = next_state
+        time.sleep(0.1)
         if done:
             print("Agent Finished. Total score: {}".format(score))
             break

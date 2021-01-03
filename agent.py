@@ -144,13 +144,12 @@ class Agent():
 
 
 class TrainedAgent():
-    def __init__(self, state_size, action_size, state_dict):
+    def __init__(self, state_size, action_size, trained_model_location):
         
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.model = QNetwork(state_size, action_size).to(self.device)
+        self.model.load_state_dict(torch.load(trained_model_location, map_location=torch.device(self.device)))
         
-        #state_dict = torch.load(state_dict)
-        self.model.load_state_dict(state_dict)
         self.model.eval()
         
     def act(self, state):
