@@ -105,7 +105,7 @@ And its results are stored here:
 /results/1609615254_Various Changes_results
 
 A graphic summarising the performance:
-!["Model Results"](https://github.com/aivoric/RL-Navigation-Project/model_results.png)
+!["Model Results"](https://github.com/aivoric/RL-Navigation-Project/blob/master/model_results.png?raw=true)
 
 ### Hyperparameters used
 
