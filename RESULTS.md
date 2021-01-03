@@ -31,6 +31,8 @@ Some attempts were made at testing dropouts, batch normalisation, and different 
 
 ### Hyperparameters used
 
+To understand some of the parameters below, please read the README in regards to the experiments framework used in this project.
+
 - learning_rate: 0.0001
 - gamma: 0.99
 - epsilon_decay: 0.997
