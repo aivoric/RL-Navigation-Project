@@ -120,15 +120,15 @@ For every step the agent makes in the environment using one of the 4 above discr
 4. For every sampled experience calculate 2 Q values: your current model, and your new model with the new experience + obtained reward
 5. Calculate the loss based on the 2 Q values from the network outputs
 6. Backpropagate your main model to update the weights
-7. Gently update the target model weights based on your main model weights
+7. Gently update the target model weights based on your main model weights. The TAU hyperparameter controls this update.
 
 
 ### Model Architecture
 
-The architecture was a simple Linear model which:
-- Consumed an input vector size 37 (37 state dimensions)
-- 2 inner layers: 64, and 128 neurons in size
-- 4 outputs (one for each action)
+The architecture is a simple Linear model which:
+- Consumes an input vector size 37 (37 state dimensions)
+- Has 2 inner layers: 64, and 128 neurons in size
+- Has 4 outputs (one for each action)
 
 Some attempts were made at testing dropouts, batch normalisation, and different weight initialisation. However, more exploration is required in that direction.
 
