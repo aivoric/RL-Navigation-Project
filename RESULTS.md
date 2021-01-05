@@ -20,18 +20,32 @@ And its results are stored here:
 A graphic summarising the performance:
 !["Model Results"](https://github.com/aivoric/RL-Navigation-Project/blob/master/model_results.png?raw=true)
 
+### Learning Algorithm
+
+The algorithm is based on a Double DQN implementation with a memory replay mechanism.
+
+There are also 2 identical Q value networks which are instantiated right at the start based on a simple Linear architecture (see section below for Model Architecture).
+
+For every step the agent makes in the environment using one of the 4 above discrete actions, the following happens:
+1. The data from the step is added to a memory buffer (state, action, reward, next_state, done)
+2. Every 4 steps, and if there are sufficient samples in the buffer, the agent attempts to learn.
+3. Learning is done by randomly sampling experiences from the memory buffer.
+4. For every sampled experience calculate 2 Q values: your current model, and your new model with the new experience + obtained reward
+5. Calculate the loss based on the 2 Q values from the network outputs
+6. Backpropagate your main model to update the weights
+7. Gently update the target model weights based on your main model weights. The TAU hyperparameter controls this update.
+
+
 ### Model Architecture
 
-The architecture was a simple Linear model which:
-- Consumed an input vector size 37 (37 state dimensions)
-- 2 inner layers: 64, and 128 neurons in size
-- 4 outputs (one for each action)
+The architecture is a simple Linear model which:
+- Consumes an input vector size 37 (37 state dimensions)
+- Has 2 inner layers: 64, and 128 neurons in size
+- Has 4 outputs (one for each action)
 
 Some attempts were made at testing dropouts, batch normalisation, and different weight initialisation. However, more exploration is required in that direction.
 
-### Hyperparameters used
-
-To understand some of the parameters below, please read the README in regards to the experiments framework used in this project.
+### Hyperparameters
 
 - learning_rate: 0.0001
 - gamma: 0.99
